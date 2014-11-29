@@ -171,6 +171,11 @@ samps = np.size(times)
 
 training = pre_train_dur
 
+# generate input patterns
+uon_t = u_on(times)
+uoff_t = u_off(times)
+
+
 
 params = (dt, training, f_actual)
 xsave = np.zeros((samps, Ng))
