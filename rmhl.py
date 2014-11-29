@@ -7,6 +7,9 @@ import mpl_toolkits.mplot3d
 from scipy.integrate import odeint
 import pylab as plt
 
+
+# Authors: Tammy Tran, Nuttida Rungratsameetaweemana, Brad Theilman
+
 tau = 10  # time constant
 p = 0.1 # internal connectivity
 
