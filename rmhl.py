@@ -36,6 +36,25 @@ def eta(t):
 
 tau_avg = 5 #ms
 
+# Heaviside
+def heaviside(s, intermediate):
+    if s < 0:
+        return 0.0
+    if s > 0:
+        return 1.0
+    if s == 0:
+        return intermediate
+
+# Exponential Filter
+tau_l = 50 #ms
+def g(s):
+    return sp.exp(-s/tau_l)*heaviside(s, 1)
+
+# H smoothing functio
+def h(s):
+    return heaviside(s, 1) - heaviside(s - 100, 1)
+
+
 # input streams
 def u_on(t):
     return np.random.random_sample() > 0.0005
