@@ -178,11 +178,18 @@ samps = np.size(times)
 training = pre_train_dur
 
 # generate input patterns
-uon_t = u_on(times)
-uoff_t = u_off(times)
-f_raw = f(uon_t, uoff_t)
+uon_t = 1*u_on(times)
+uoff_t = 1*u_off(times)
+f_raw = 1*f(uon_t, uoff_t)
 
+# Generate filters
+filt_t = sp.linspace(-200, 200, 1)
+h_filt = h(filt_t)
+g_filt = g(filt_t)
 
+# compute filtered inputs
+sigma_u = 1
+uon_filt = sp.convolve(heaviside(sp.convolve(uon_t, h_filt, 'same'), 0), g_filt, 'same')/sigma_u
 
 params = (dt, training, f_actual)
 xsave = np.zeros((samps, Ng))
