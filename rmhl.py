@@ -57,23 +57,29 @@ def h(s):
 
 # input streams
 def u_on(t):
-    return np.random.random_sample() > 0.0005
+    return np.random.random_sample((sp.size(t),)) < 0.0005
 def u_off(t):
-    return np.random.random_sample() > 0.0005
+    return np.random.random_sample((sp.size(t),)) < 0.0005
 #def u_on_steam(t):
 #def u_off_steam(t):
     
 # target function
 f_prev = 0
 def f(uon, uoff):
-    if uon== 1:  # switch to high firing rate
-        f_prev = 0.5
-        return 0.5
-    if u_off(t) == 1:
-        f_prev = -0.5 # switch to low firing rate
-        return -0.5
-    else:
-        return f_prev
+    f_prev = 0
+    uon_len = sp.size(uon)
+    uoff_len = sp.size(uoff)
+    if uon_len != uoff_len:
+        return 0
+
+    fret = sp.zeros(uon_len)
+    for samp in sp.arange(1, uon_len):
+        if uon[samp] == 1:
+            f_prev = 0.5
+        if uoff[samp] == 1:
+            f_prev = -0.5
+        fret[samp] = f_prev
+    return fret
 
 def f_actual(uon, uoff):
     # 1/ sigma f times f(t) * g, where * is a convolution operation, discretized by t_step
@@ -174,6 +180,7 @@ training = pre_train_dur
 # generate input patterns
 uon_t = u_on(times)
 uoff_t = u_off(times)
+f_raw = f(uon_t, uoff_t)
 
 
 
