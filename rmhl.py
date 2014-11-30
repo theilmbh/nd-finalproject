@@ -38,12 +38,8 @@ tau_avg = 5 #ms
 
 # Heaviside
 def heaviside(s, intermediate):
-    if s < 0:
-        return 0.0
-    if s > 0:
-        return 1.0
-    if s == 0:
-        return intermediate
+    return 1.0*(s > 0)
+    
 
 # Exponential Filter
 tau_l = 50 #ms
